@@ -161,3 +161,7 @@ int main(){
 
 ## 2.scanf()输入函数
 
+### 3.getchar()字符输入函数
+
+## 4.putchar()函数
+
