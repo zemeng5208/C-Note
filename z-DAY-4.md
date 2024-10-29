@@ -1,6 +1,6 @@
 # 选择语句
 
-## 1. if()else选择语句
+## 1. if()else()选择语句
 
 #### 1. if
 
@@ -76,8 +76,6 @@ if(n < 0){
     }
 }
 ```
-
-
 
 使用 else if
 
@@ -198,15 +196,11 @@ BOOL flag;
 
 现在我们就非常清楚了：flag 不是一个普通的整型变量，而是表示布尔条件。（当然编译器还是将 flag 当作 int 类型的变量。）
 
-· C99 · 
-
 `C99`中提供了` _Bool` 类型：
 
 ```
 _Bool flag;
 ```
-
-
 
 > `_Bool`是无符号整型。但是和一般的整形不同，`_Bool `只能被赋值为 0 或 1 。一般来说，向 _Bool 类型变量中储存非零值会导致变量赋值为 1 。
 
@@ -228,3 +222,105 @@ flag = true;
 ...
 flag = false;
 ```
+
+## 2.switch()选择语句
+
+**switch 语句常用格式：**
+
+```
+switch(控制表达式){
+    case 常量表达式 : 语句
+        ...
+    case 常量表达式 : 语句
+    default : 语句
+}
+```
+
+- **控制表达式：**控制表达式只能用：`整型`，`字符型的变量`（C 语言把字符当成整数来处理），不能用`浮点数 `和 `字符串`。
+
+- **分支标号：**每一个分支的开头都有一个标号，格式如下：
+
+  `case 常量表达式；`
+
+  常量表达式(constant expression): 必须是·**整数或字符型**·，不能包含**变量和函数调用**。
+
+  5 是常量表达式，5 + 10 也是常量表达式；但是 10 + n 不是常量表达式（除非 n 是表示常量的宏）。
+
+- **语句：**每个分支标号后可以跟任意数量的语句。不需要用花括号把这些语句括起来。每组语句的最后一条通常是 break 语句。
+
+- **break 的作用：** 本节后面会详细讨论。
+
+- **default 语句的作用：** 控制表达式的值和所有的标号语句都不匹配的话，会执行 default 后面的语句。（default ：默认的意思）
+
+C 语言**不允许有重复的分支标号，但对分支的顺序没有要求**，特别是 default 分支不一定要放在最后。
+
+case 后**只可以跟随一个常量表达式**。但是，**多个分支标号可以放置在同一组语句前面** 。如：
+
+```
+switch(grade){
+    case 4:
+    case 3:
+    case 2: 
+    case 1: printf("Passing");
+        	break;
+    case 0: printf("Failing");
+        	break;
+    default:printf("Illegal grade");
+        	break;
+}
+```
+
+为了节省空间，可以将拥有相同语句的分支标号放在同一行：
+
+```
+switch(grade){
+    case 4: case 3: case 2:  case 1: 
+        	printf("Passing");
+        	break;
+    case 0: printf("Failing");
+        	break;
+    default:printf("Illegal grade");
+        	break;
+}
+```
+
+switch 语句**不要求一定有 default 分支**。如果 default 不存在，而且控制表达式的值和所有的标号语句都不匹配的话，控制会直接传给 switch 语句后面的语句。
+
+#### break 语句的作用
+
+break 会使程序“跳出” switch 语句，继续执行 switch 后面的语句。
+
+对控制表达式求值的时，控制会跳转到与 switch 表达式相匹配的分支标号处。分支标号只是说明 switch 内部位置的标记。在执行完分支的最后一句后，程序控制“向下跳转”到下一个分支的第一条语句上，而忽略下一个分支的分支标号。如果没有 break 语句（或者其他某种跳转语句），控制将会从一个分支继续到下一个分支。思考下面的 switch 语句：
+
+```
+switch(grade){
+    case 4: printf("Excellent"); 
+    case 3: printf("Good");
+    case 2: printf("Average");
+    case 1: printf("Poor");
+    case 0: printf("Failing");
+    default:printf("Illegal grade");
+}
+```
+
+如果 grade 的值为 3，那么显示的信息是：
+
+```
+GoodAveragePoorFailingIllegal grade
+```
+
+**注意：**忘记 break 是编程时常见的错误。虽然有时候会故意忽略 break 以便多个分支共享代码，但是通常情况下省略 break 是因为忽略。
+
+如果有需要，**明确指出**故意省略 break 语句是一个好主意：
+
+```
+switch(grade){
+    case 4: case 3: case 2:  case 1: 
+			num_passing++;
+        // Fail Through 
+    case 0: total_grades++;
+        	break;
+}
+```
+
+最然 switch 语句最后一个分支不需要 break 语句，但是通常还是会加上一个 break 语句在那里，**以防止将来增加分支时出现“丢失” break 的问题**。
