@@ -12,11 +12,17 @@
 
 [3.DAY-2:格式化输入输出](z-DAY-2.md)
 
-[4.DAY-3：运算符表达式](z-DAY-3.md)
+[4.DAY-3:运算符表达式](z-DAY-3.md)
 
 [5.DAY-4:选择语句](z-DAY-4.md)
 
 [6.DAY-5:循环语句](z-DAY-5.md)
+
+[7.DAY-6:数组](z-DAY-6.md)
+
+[8.DAY-7.指针](z-DAY-7.md)
+
+[9.DAY-8:函数](z-DAY-8.md)
 
 
 
